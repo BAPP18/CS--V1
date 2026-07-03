@@ -1,8 +1,3 @@
-"""
-Module 5: Phishing URL Detector (rule-based heuristic)
-Tidak butuh dataset/training model - cocok untuk demo cepat & portofolio.
-"""
-
 import re
 from urllib.parse import urlparse
 

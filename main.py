@@ -1,9 +1,3 @@
-"""
-Cybersecurity Toolkit - Main Menu
-Jalankan: python main.py
-Lalu pilih tool yang mau dijalankan dari menu interaktif.
-"""
-
 import sys
 from modules import (
     port_scanner,

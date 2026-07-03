@@ -1,10 +1,3 @@
-"""
-Module 6: Network Packet Sniffer
-Butuh: pip install scapy
-Harus dijalankan dengan hak akses admin/root (sudo python main.py di Linux/Mac,
-atau Run as Administrator di Windows).
-"""
-
 try:
     from scapy.all import sniff, IP, TCP, UDP
     SCAPY_AVAILABLE = True

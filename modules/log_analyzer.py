@@ -1,8 +1,3 @@
-"""
-Module 3: Security Log Analyzer
-Deteksi pola mencurigakan (brute force SSH, directory scanning) dari log file.
-"""
-
 import re
 from collections import defaultdict, Counter
 

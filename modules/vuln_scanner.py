@@ -1,9 +1,3 @@
-"""
-Module 4: Simple Vulnerability Scanner
-Cek CVE untuk software/versi tertentu menggunakan NVD (National Vulnerability Database) API.
-Butuh koneksi internet. Install dulu: pip install requests
-"""
-
 import requests
 
 NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0"

@@ -1,7 +1,3 @@
-"""
-Module 1: Multi-threaded Port Scanner
-"""
-
 import socket
 import threading
 from datetime import datetime

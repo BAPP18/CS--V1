@@ -1,7 +1,3 @@
-"""
-Module 2: Password Strength Checker + Generator
-"""
-
 import re
 import math
 import secrets

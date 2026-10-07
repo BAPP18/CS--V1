@@ -1,36 +1,57 @@
 # Cybersecurity Toolkit
 
-Kumpulan tools cybersecurity sederhana dalam satu menu interaktif berbasis Python.
-Dibuat sebagai portofolio pembelajaran cybersecurity, mencakup network security, application security, dan security automation.
+A lightweight Python cybersecurity toolkit for learning and portfolio use. The project combines several defensive/security-analysis utilities in one interactive CLI:
 
-## Fitur
+- multi-threaded TCP port scanner;
+- password strength checker and secure password generator;
+- SSH/web access-log analyzer;
+- CVE lookup using the NVD API;
+- phishing URL heuristic analyzer;
+- network packet sniffer using Scapy.
 
-| No | Tool | Deskripsi |
-|----|------|-----------|
-| 1 | Port Scanner | Scan port terbuka pada target IP/host secara multi-threaded |
-| 2 | Password Strength Checker + Generator | Cek kekuatan password (entropy, pola umum) & generate password aman |
-| 3 | Log Analyzer | Deteksi pola mencurigakan (brute force SSH, directory scanning) dari log file |
-| 4 | Vulnerability Scanner | Cari CVE terkait software/versi tertentu via NVD API |
-| 5 | Phishing URL Detector | Analisis heuristik URL untuk mendeteksi ciri-ciri phishing |
-| 6 | Network Packet Sniffer | Capture & tampilkan traffic jaringan (TCP/UDP) menggunakan Scapy |
+> **Authorized use only.** Use the network-oriented modules only on systems, networks, interfaces, and data that you own or are explicitly authorized to test.
 
-## Instalasi
+## Why this project exists
+
+This repository is designed as a practical cybersecurity portfolio project. It demonstrates Python fundamentals, networking, log analysis, API consumption, input validation, simple detection heuristics, and defensive security tooling.
+
+## Features
+
+| Tool | What it does | Notes |
+|---|---|---|
+| Port Scanner | Checks a TCP port range using worker threads | Intended for authorized assets only |
+| Password Tool | Estimates password strength and generates cryptographically secure passwords | Uses Python `secrets` |
+| Log Analyzer | Detects repeated failed SSH logins and high-volume 404 patterns | Heuristic detection |
+| CVE Lookup | Searches public NVD CVE records by product/version keyword | Supports optional NVD API key |
+| Phishing URL Analyzer | Scores suspicious URL characteristics | Heuristic only; not a verdict engine |
+| Packet Sniffer | Displays basic IPv4 TCP/UDP packet metadata | Requires suitable privileges |
+
+## Requirements
+
+- Python 3.10+
+- Internet access for NVD lookups
+- Administrator/root privileges for packet capture on many systems
+
+Install dependencies:
 
 ```bash
-git clone https://github.com/BAPPI8/cybersecurity-toolkit.git
-cd cybersecurity-toolkit
+git clone https://github.com/BAPP18/CS--V1.git
+cd CS--V1
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Cara Menjalankan
+## Run
 
 ```bash
 python main.py
 ```
 
-Setelah dijalankan, akan muncul menu interaktif seperti berikut:
+Menu:
 
-```
+```text
 ==================================================
  CYBERSECURITY TOOLKIT
 ==================================================
@@ -42,34 +63,67 @@ Setelah dijalankan, akan muncul menu interaktif seperti berikut:
  [6] Network Packet Sniffer
  [0] Keluar
 ==================================================
-Pilih menu:
 ```
 
-Tinggal ketik angka sesuai tool yang ingin dijalankan.
+## Optional NVD API key
 
-## Catatan
+NVD can apply stricter rate limits to unauthenticated requests. If you have an API key:
 
-- **Port Scanner**: gunakan hanya pada sistem/jaringan yang memang milik sendiri atau sudah punya izin resmi.
-- **Packet Sniffer**: butuh hak akses admin/root (`sudo python main.py` di Linux/Mac).
-- **Vulnerability Scanner**: butuh koneksi internet karena mengambil data dari NVD (National Vulnerability Database).
-- **Phishing Detector**: berbasis rule/heuristik sederhana, bukan pengganti tools deteksi phishing profesional.
-
-## Disclaimer
-
-Project ini dibuat untuk tujuan edukasi dan portofolio. Gunakan semua tools secara etis dan hanya pada sistem yang sudah memiliki izin.
-
-## Struktur Project
-
+```bash
+export NVD_API_KEY="your-key"
 ```
-cybersecurity-toolkit/
+
+The application reads it from the environment; do not commit API keys to Git.
+
+## Testing
+
+Run:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+The included tests focus on deterministic logic such as URL analysis, password generation, and log parsing. Network scanning and packet capture should be tested only in controlled environments.
+
+## Project structure
+
+```text
+CS--V1/
 ├── main.py
 ├── requirements.txt
 ├── README.md
+├── .gitignore
+├── tests/
+│   ├── test_log_analyzer.py
+│   ├── test_password_tool.py
+│   └── test_phishing_detector.py
 └── modules/
-    ├── port_scanner.py
-    ├── password_tool.py
+    ├── __init__.py
     ├── log_analyzer.py
-    ├── vuln_scanner.py
+    ├── packet_sniffer.py
+    ├── password_tool.py
     ├── phishing_detector.py
-    └── packet_sniffer.py
+    ├── port_scanner.py
+    └── vuln_scanner.py
 ```
+
+## Limitations
+
+- Port scanning is TCP-connect based; it is not a replacement for Nmap.
+- Phishing detection is heuristic and can produce false positives/negatives.
+- CVE keyword matching does not prove that a host is vulnerable.
+- Log thresholds are simple defaults and should be tuned for the environment.
+- Packet capture currently focuses on basic IPv4 TCP/UDP metadata.
+
+## Security & ethics
+
+This toolkit is intended for education, defensive analysis, and authorized testing. Do not use it to scan, intercept, or analyze systems or traffic without permission.
+
+## Roadmap
+
+- JSON/CSV output
+- configurable detection thresholds
+- structured logging
+- richer CVE filtering and pagination
+- unit/integration test expansion
+- optional CLI arguments in addition to the interactive menu

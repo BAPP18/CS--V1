@@ -1,2 +1,2 @@
-requests
-scapy
+requests>=2.32,<3
+scapy>=2.6,<3
